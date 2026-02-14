@@ -2,6 +2,7 @@ import { StrictMode } from 'react';
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 import ReactDOM from 'react-dom/client';
 
+import '@/config/i18n';
 import '@/styles/index.css';
 
 import { QueryClient } from '@tanstack/react-query';
