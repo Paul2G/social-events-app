@@ -1,11 +1,13 @@
-import { StrictMode } from 'react';
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 import ReactDOM from 'react-dom/client';
 
 import '@/config/i18n';
 import '@/styles/index.css';
 
-import { QueryClient } from '@tanstack/react-query';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+import { AuthProvider } from '@/layout/contexts/auth-provider';
+import { useAuth } from '@/layout/hooks/use-auth';
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen';
@@ -17,6 +19,7 @@ const router = createRouter({
   routeTree,
   context: {
     queryClient,
+    auth: undefined!,
   },
   defaultPreload: 'intent',
   // Since we're using React Query, we don't want loader calls to ever be stale
@@ -32,13 +35,23 @@ declare module '@tanstack/react-router' {
   }
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
+function App() {
+  const auth = useAuth();
+
+  return <RouterProvider router={router} context={{ auth, queryClient }} />;
+}
+
 // Render the app
 const rootElement = document.getElementById('root')!;
+
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
-    <StrictMode>
-      <RouterProvider router={router} />
-    </StrictMode>,
+    <QueryClientProvider client={queryClient}>
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    </QueryClientProvider>,
   );
 }

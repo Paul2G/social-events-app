@@ -1,5 +1,13 @@
+import type { AuthContextValue } from '@/layout/contexts/auth-provider';
+import type { QueryClient } from '@tanstack/react-query';
+
 import { useEffect } from 'react';
-import { createRootRoute, Link, Outlet } from '@tanstack/react-router';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import {
+  createRootRouteWithContext,
+  Link,
+  Outlet,
+} from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import { useTranslation } from 'react-i18next';
 
@@ -27,9 +35,15 @@ export function RootLayout() {
       </div>
       <hr />
       <Outlet />
-      <TanStackRouterDevtools />
+      <ReactQueryDevtools buttonPosition="top-right" />
+      <TanStackRouterDevtools position="bottom-right" />
     </>
   );
 }
 
-export const Route = createRootRoute({ component: RootLayout });
+export const Route = createRootRouteWithContext<{
+  queryClient: QueryClient;
+  auth: AuthContextValue;
+}>()({
+  component: RootLayout,
+});
