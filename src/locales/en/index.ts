@@ -1,3 +1,3 @@
 export { core } from './core';
 export { statusCodes } from './status-codes';
-export { user } from './user';
+export { auth } from './auth';
