@@ -8,7 +8,8 @@ import {
 import { z } from 'zod';
 
 import { sleep } from '@/core/lib/utils';
-import { useAuth } from '@/layout/hooks/use-auth';
+import { LoginForm } from '@/modules/auth/components/forms/login-form';
+import { useAuth } from '@/modules/auth/hooks/use-auth';
 
 // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
 const fallback = '/dashboard' as const;
@@ -62,36 +63,11 @@ function LoginComponent() {
   const isLoggingIn = isLoading || isSubmitting;
 
   return (
-    <div className="p-2 grid gap-2 place-items-center">
-      <h3 className="text-xl">Login page</h3>
-      {search.redirect ? (
-        <p className="text-red-500">You need to login to access this page.</p>
-      ) : (
-        <p>Login to see all the cool content in here.</p>
-      )}
-      <form className="mt-4 max-w-lg" onSubmit={onFormSubmit}>
-        <fieldset disabled={isLoggingIn} className="w-full grid gap-2">
-          <div className="grid gap-2 items-center min-w-[300px]">
-            <label htmlFor="username-input" className="text-sm font-medium">
-              Username
-            </label>
-            <input
-              id="username-input"
-              name="username"
-              placeholder="Enter your name"
-              type="text"
-              className="border rounded-md p-2 w-full"
-              required
-            />
-          </div>
-          <button
-            type="submit"
-            className="bg-blue-500 text-white py-2 px-4 rounded-md w-full disabled:bg-gray-300 disabled:text-gray-500"
-          >
-            {isLoggingIn ? 'Loading...' : 'Login'}
-          </button>
-        </fieldset>
-      </form>
-    </div>
+    <main className="bg-muted h-screen w-screen flex justify-center items-center">
+      <LoginForm
+        className="w-full max-w-[24rem] animate-in fade-in duration-1000"
+        onSubmit={() => {}}
+      />
+    </main>
   );
 }

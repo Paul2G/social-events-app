@@ -6,8 +6,8 @@ import '@/styles/index.css';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-import { AuthProvider } from '@/layout/contexts/auth-provider';
-import { useAuth } from '@/layout/hooks/use-auth';
+import { AuthProvider } from '@/modules/auth/contexts/auth-provider';
+import { useAuth } from '@/modules/auth/hooks/use-auth';
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen';
