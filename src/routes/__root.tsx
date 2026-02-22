@@ -34,6 +34,7 @@ export function RootLayout() {
 export const Route = createRootRouteWithContext<{
   queryClient: QueryClient;
   auth: AuthContextValue;
+  i18n: ReturnType<typeof useTranslation>['i18n'];
 }>()({
   component: RootLayout,
 });

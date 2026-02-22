@@ -1,11 +1,12 @@
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 import ReactDOM from 'react-dom/client';
 
-import '@/i18n';
 import '@/styles/index.css';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { I18nextProvider, useTranslation } from 'react-i18next';
 
+import i18n from '@/i18n';
 import { AuthProvider } from '@/modules/auth/contexts/auth-provider';
 import { useAuth } from '@/modules/auth/hooks/use-auth';
 
@@ -20,6 +21,7 @@ const router = createRouter({
   context: {
     queryClient,
     auth: undefined!,
+    i18n: undefined!,
   },
   defaultPreload: 'intent',
   // Since we're using React Query, we don't want loader calls to ever be stale
@@ -36,10 +38,13 @@ declare module '@tanstack/react-router' {
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
-function App() {
+function ContextualizedApp() {
   const auth = useAuth();
+  const { i18n } = useTranslation();
 
-  return <RouterProvider router={router} context={{ auth, queryClient }} />;
+  return (
+    <RouterProvider router={router} context={{ auth, queryClient, i18n }} />
+  );
 }
 
 // Render the app
@@ -48,10 +53,12 @@ const rootElement = document.getElementById('root')!;
 if (!rootElement.innerHTML) {
   const root = ReactDOM.createRoot(rootElement);
   root.render(
-    <QueryClientProvider client={queryClient}>
-      <AuthProvider>
-        <App />
-      </AuthProvider>
-    </QueryClientProvider>,
+    <I18nextProvider i18n={i18n}>
+      <QueryClientProvider client={queryClient}>
+        <AuthProvider>
+          <ContextualizedApp />
+        </AuthProvider>
+      </QueryClientProvider>
+    </I18nextProvider>,
   );
 }
