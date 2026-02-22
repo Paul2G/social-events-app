@@ -1,4 +1,3 @@
-import projectConfig from '@/config/project';
 import {
   FetchMethod,
   FetchRequestContentType,
@@ -9,6 +8,7 @@ import { NotOkResponseError } from '@/core/errors';
 import { getSearchParamsFromObjectForBaseApi } from '@/core/lib/search-params';
 import { type CommonDataRecord } from '@/core/types/fetch';
 import { getUserToken } from '@/modules/auth/lib/token';
+import projectConfig from '@/project.config';
 
 /** Makes a request to the base API endpoint with specified parameters. */
 export async function fetchToApi<T = unknown>(

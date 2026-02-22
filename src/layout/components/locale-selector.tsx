@@ -1,13 +1,8 @@
-import type { Locale } from '@/config/constants/locales';
+import type { Locale } from '@/layout/constants/locales';
 
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { localeData, locales } from '@/config/constants/locales';
-import {
-  setLocaleInDocument,
-  setUserLocalePreference,
-} from '@/config/lib/locales';
 import { Button } from '@/core/components/ui/button';
 import {
   DropdownMenu,
@@ -16,6 +11,11 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from '@/core/components/ui/dropdown-menu';
+import { localeData, locales } from '@/layout/constants/locales';
+import {
+  setLocaleInDocument,
+  setUserLocalePreference,
+} from '@/layout/lib/locales';
 
 export function LocaleSelector() {
   const { i18n } = useTranslation();

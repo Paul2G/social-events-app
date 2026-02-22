@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import {
   getUserLocalePreference,
   setLocaleInDocument,
-} from '@/config/lib/locales';
+} from '@/layout/lib/locales';
 
 export function RootLayout() {
   const { i18n } = useTranslation();

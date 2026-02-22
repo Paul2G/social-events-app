@@ -1,11 +1,11 @@
-import type { Locale } from '@/config/constants/locales';
+import type { Locale } from '@/layout/constants/locales';
 
 import {
   defaultProjectLocale,
   LOCALE_LOCAL_STORAGE_KEY,
   localeData,
   locales,
-} from '@/config/constants/locales';
+} from '@/layout/constants/locales';
 
 export function getUserLocalePreference(): Locale {
   const localStorageLocale = localStorage.getItem(LOCALE_LOCAL_STORAGE_KEY);

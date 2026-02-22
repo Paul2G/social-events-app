@@ -5,7 +5,7 @@ import {
   defaultProjectLocale,
   languages,
   localeData,
-} from '@/config/constants/locales';
+} from '@/layout/constants/locales';
 import * as en from '@/locales/en';
 import * as es from '@/locales/es';
 

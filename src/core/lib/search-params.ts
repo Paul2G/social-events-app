@@ -3,7 +3,7 @@ import type { CommonDataRecord } from '@/core/types/fetch';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 
-import projectConfig from '@/config/project';
+import projectConfig from '@/project.config';
 
 dayjs.extend(timezone);
 

@@ -1,4 +1,4 @@
-import type { Language } from '@/config/constants/locales';
+import type { Language } from '@/layout/constants/locales';
 
 import dayjs from 'dayjs';
 

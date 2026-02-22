@@ -1,6 +1,6 @@
 import { DateFormat } from '@/core/constants/dates';
 
-const projectConfig = {
+export default {
   name: 'Social Events App',
   brand: 'Social Events Hall',
   time: {
@@ -12,5 +12,3 @@ const projectConfig = {
     url: import.meta.env?.VITE_BASE_API_URL,
   },
 } as const;
-
-export default projectConfig;
