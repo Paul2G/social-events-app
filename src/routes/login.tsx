@@ -1,4 +1,6 @@
-import * as React from 'react';
+import type { LoginData } from '@/modules/auth/types';
+
+import { useMutation } from '@tanstack/react-query';
 import {
   createFileRoute,
   redirect,
@@ -7,7 +9,6 @@ import {
 } from '@tanstack/react-router';
 import { z } from 'zod';
 
-import { sleep } from '@/core/lib/utils';
 import { LoginForm } from '@/modules/auth/components/forms/login-form';
 import { useAuth } from '@/modules/auth/hooks/use-auth';
 
@@ -18,8 +19,10 @@ export const Route = createFileRoute('/login')({
   validateSearch: z.object({
     redirect: z.string().optional().catch(''),
   }),
-  beforeLoad: ({ context, search }) => {
-    if (context.auth?.isAuthenticated) {
+  beforeLoad: async ({ context, search }) => {
+    const user = await context.auth.verifySession();
+
+    if (Boolean(user)) {
       throw redirect({ to: search.redirect || fallback });
     }
   },
@@ -29,44 +32,41 @@ export const Route = createFileRoute('/login')({
 function LoginComponent() {
   const auth = useAuth();
   const router = useRouter();
-  const isLoading = useRouterState({ select: (s) => s.isLoading });
   const navigate = Route.useNavigate();
-  const [isSubmitting, setIsSubmitting] = React.useState(false);
-
   const search = Route.useSearch();
 
-  const onFormSubmit = async (evt: React.FormEvent<HTMLFormElement>) => {
-    setIsSubmitting(true);
-    try {
-      evt.preventDefault();
-      const data = new FormData(evt.currentTarget);
-      const fieldValue = data.get('username');
+  const isLoading = useRouterState({
+    select: (s) => s.isLoading,
+  });
 
-      if (!fieldValue) return;
-      const username = fieldValue.toString();
-      await auth.login(username);
-
+  const loginMutation = useMutation({
+    mutationFn: auth.login,
+    onSuccess: async () => {
+      // refresh router loaders that depend on auth
       await router.invalidate();
 
-      // This is just a hack being used to wait for the auth state to update
-      // in a real app, you'd want to use a more robust solution
-      await sleep(1);
+      await navigate({
+        to: search.redirect || fallback,
+      });
+    },
 
-      await navigate({ to: search.redirect || fallback });
-    } catch (error) {
-      console.error('Error logging in: ', error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+    onError: (error) => {
+      console.error('Error logging in:', error);
+    },
+  });
 
-  const isLoggingIn = isLoading || isSubmitting;
+  function onFormSubmit(loginData: LoginData) {
+    loginMutation.mutate(loginData);
+  }
+
+  const isLoggingIn = isLoading || loginMutation.isPending;
 
   return (
     <main className="bg-muted h-screen w-screen flex justify-center items-center">
       <LoginForm
         className="w-full max-w-[24rem] animate-in fade-in duration-1000"
-        onSubmit={() => {}}
+        onSubmit={onFormSubmit}
+        isLoading={isLoggingIn}
       />
     </main>
   );

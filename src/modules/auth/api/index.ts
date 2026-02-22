@@ -4,7 +4,10 @@ export function login(data: LoginData): Promise<User> {
   // Mock API call - replace with actual API integration
   return new Promise<User>((resolve, reject) => {
     setTimeout(() => {
-      if (data.email === 'admin' && data.password === 'admin') {
+      if (
+        data.email === 'admin@example.com' &&
+        data.password === 'adminadmin'
+      ) {
         resolve({
           token: 'mock-jwt-token',
           id: 'skKjd78a-#',
@@ -27,7 +30,7 @@ export function logout(): Promise<void> {
   });
 }
 
-export function checkAuth(token: string): Promise<User> {
+export function verifySession(token: string): Promise<User> {
   // Mock API call - replace with actual API integration
   return new Promise<User>((resolve, reject) => {
     setTimeout(() => {

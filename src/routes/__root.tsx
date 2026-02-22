@@ -12,6 +12,14 @@ import {
   setLocaleInDocument,
 } from '@/layout/lib/locales';
 
+export const Route = createRootRouteWithContext<{
+  queryClient: QueryClient;
+  auth: AuthContextValue;
+  i18n: ReturnType<typeof useTranslation>['i18n'];
+}>()({
+  component: RootLayout,
+});
+
 export function RootLayout() {
   const { i18n } = useTranslation();
 
@@ -30,11 +38,3 @@ export function RootLayout() {
     </>
   );
 }
-
-export const Route = createRootRouteWithContext<{
-  queryClient: QueryClient;
-  auth: AuthContextValue;
-  i18n: ReturnType<typeof useTranslation>['i18n'];
-}>()({
-  component: RootLayout,
-});

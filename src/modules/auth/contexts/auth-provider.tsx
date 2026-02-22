@@ -3,8 +3,12 @@ import type { ReactNode } from 'react';
 
 import { createContext, useCallback, useEffect, useState } from 'react';
 
-import { checkAuth, login, logout } from '@/modules/auth/api';
-import { getUserToken, removeUserToken } from '@/modules/auth/lib/token';
+import { login, logout, verifySession } from '@/modules/auth/api';
+import {
+  getUserToken,
+  removeUserToken,
+  setUserToken,
+} from '@/modules/auth/lib/token';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const AuthContext = createContext<AuthContextValue | null>(null);
@@ -15,6 +19,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
   const handleLogin = useCallback(async (loginData: LoginData) => {
     const user = await login(loginData);
+    setUserToken(user.token);
     setUser(user);
   }, []);
 
@@ -28,13 +33,17 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
     if (token) {
       try {
-        const user = await checkAuth(token);
+        const user = await verifySession(token);
         setUser(user);
+
+        return user;
       } catch (error) {
-        console.log(error);
         removeUserToken();
+        return null;
       }
     }
+
+    return null;
   }, []);
 
   useEffect(() => {
@@ -49,6 +58,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
         user,
         login: handleLogin,
         logout: handleLogout,
+        verifySession: handleCheckAuth,
       }}
     >
       {children}
@@ -60,6 +70,7 @@ export type AuthContextValue = {
   isAuthenticated: boolean;
   login: (loginData: LoginData) => Promise<void>;
   logout: () => Promise<void>;
+  verifySession: () => Promise<User | null>;
   user: User | null;
 };
 

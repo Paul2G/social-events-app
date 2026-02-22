@@ -19,10 +19,16 @@ import {
   FieldLabel,
 } from '@/core/components/ui/field';
 import { Input } from '@/core/components/ui/input';
+import { Spinner } from '@/core/components/ui/spinner';
 import { cn } from '@/core/lib/utils';
 import { loginSchema } from '@/modules/auth/schemas';
 
-export function LoginForm({ onSubmit, className, ...props }: LoginFormProps) {
+export function LoginForm({
+  onSubmit,
+  className,
+  isLoading,
+  ...props
+}: LoginFormProps) {
   const { t } = useTranslation();
 
   const form = useForm({
@@ -32,6 +38,8 @@ export function LoginForm({ onSubmit, className, ...props }: LoginFormProps) {
       password: '',
     },
   });
+
+  const isSubmitting = form.formState.isSubmitting || isLoading;
 
   function handleSubmit(data: LoginData) {
     onSubmit(data);
@@ -65,6 +73,7 @@ export function LoginForm({ onSubmit, className, ...props }: LoginFormProps) {
                       id="login-form-email"
                       aria-invalid={fieldState.invalid}
                       placeholder="myemail@example.com"
+                      disabled={isSubmitting}
                     />
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
@@ -86,6 +95,7 @@ export function LoginForm({ onSubmit, className, ...props }: LoginFormProps) {
                       type="password"
                       aria-invalid={fieldState.invalid}
                       placeholder="*******"
+                      disabled={isSubmitting}
                     />
                     {fieldState.invalid && (
                       <FieldError errors={[fieldState.error]} />
@@ -94,7 +104,10 @@ export function LoginForm({ onSubmit, className, ...props }: LoginFormProps) {
                 )}
               />
               <Field>
-                <Button type="submit">{t('auth:actions.login')}</Button>
+                <Button type="submit" disabled={isSubmitting}>
+                  {isSubmitting && <Spinner />}
+                  {t('auth:actions.login')}
+                </Button>
               </Field>
             </FieldGroup>
           </form>
@@ -104,6 +117,7 @@ export function LoginForm({ onSubmit, className, ...props }: LoginFormProps) {
   );
 }
 
-export type LoginFormProps = React.ComponentProps<'div'> & {
+export type LoginFormProps = Omit<React.ComponentProps<'div'>, 'onSubmit'> & {
+  isLoading?: boolean;
   onSubmit: (data: LoginData) => void;
 };

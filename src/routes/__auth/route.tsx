@@ -3,14 +3,13 @@ import {
   Link,
   Outlet,
   redirect,
-  useRouter,
 } from '@tanstack/react-router';
 
-import { useAuth } from '@/modules/auth/hooks/use-auth';
-
 export const Route = createFileRoute('/__auth')({
-  beforeLoad: ({ context, location }) => {
-    if (!context.auth?.isAuthenticated) {
+  beforeLoad: async ({ context, location }) => {
+    const user = await context.auth.verifySession();
+
+    if (!user) {
       throw redirect({
         to: '/login',
         search: {
@@ -23,20 +22,6 @@ export const Route = createFileRoute('/__auth')({
 });
 
 function AuthLayout() {
-  const router = useRouter();
-  const navigate = Route.useNavigate();
-  const auth = useAuth();
-
-  const handleLogout = () => {
-    if (window.confirm('Are you sure you want to logout?')) {
-      auth.logout().then(() => {
-        router.invalidate().finally(() => {
-          navigate({ to: '/' });
-        });
-      });
-    }
-  };
-
   return (
     <div className="p-2 h-full">
       <h1>Authenticated Route</h1>
@@ -49,15 +34,6 @@ function AuthLayout() {
           >
             Dashboard
           </Link>
-        </li>
-        <li>
-          <button
-            type="button"
-            className="hover:underline"
-            onClick={handleLogout}
-          >
-            Logout
-          </button>
         </li>
       </ul>
       <hr />
