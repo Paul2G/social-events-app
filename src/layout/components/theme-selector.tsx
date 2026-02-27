@@ -35,7 +35,7 @@ export function ThemeSelector() {
         >
           {themes.map((theme) => (
             <DropdownMenuRadioItem key={theme} value={theme}>
-              {t(`themes.${theme}`)}
+              {t(`layout:themes.${theme}`)}
             </DropdownMenuRadioItem>
           ))}
         </DropdownMenuRadioGroup>

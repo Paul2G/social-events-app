@@ -6,12 +6,7 @@ export const layout = {
   themes: {
     dark: 'Oscuro',
     light: 'Claro',
-    vivaLight: 'Viva claro',
-    vivaDark: 'Viva oscuro',
-    laraLight: 'Lara claro',
-    laraDark: 'Lara oscuro',
-    sohoLight: 'Soho claro',
-    sohoDark: 'Soho oscuro',
+    system: 'Sistema',
   },
   scales: {
     mini: 'Mini',

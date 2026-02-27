@@ -1,6 +1,7 @@
-import { Button } from '@/core/components/ui/button';
 import { Separator } from '@/core/components/ui/separator';
 import { SidebarTrigger } from '@/core/components/ui/sidebar';
+import { LocaleSelector } from '@/layout/components/locale-selector';
+import { ThemeSelector } from '@/layout/components/theme-selector';
 
 export function PageHeader() {
   return (
@@ -11,18 +12,11 @@ export function PageHeader() {
           orientation="vertical"
           className="mx-2 my-auto data-[orientation=vertical]:h-4"
         />
+        {/* TODO: Check page title retrieving form route loader*/}
         <h1 className="text-base font-medium">Documents</h1>
         <div className="ml-auto flex items-center gap-2">
-          <Button variant="ghost" asChild size="sm" className="hidden sm:flex">
-            <a
-              href="https://github.com/shadcn-ui/ui/tree/main/apps/v4/app/(examples)/dashboard"
-              rel="noopener noreferrer"
-              target="_blank"
-              className="dark:text-foreground"
-            >
-              GitHub
-            </a>
-          </Button>
+          <LocaleSelector />
+          <ThemeSelector />
         </div>
       </div>
     </header>
