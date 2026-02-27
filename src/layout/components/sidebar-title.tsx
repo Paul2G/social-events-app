@@ -1,3 +1,5 @@
+import { Link } from '@tanstack/react-router';
+
 import {
   SidebarMenu,
   SidebarMenuButton,
@@ -10,7 +12,7 @@ export function SidebarTitle() {
     <SidebarMenu>
       <SidebarMenuItem>
         <SidebarMenuButton size="lg" asChild>
-          <a href="#">
+          <Link to="/">
             <div className="text-sidebar-primary-foreground flex aspect-square size-8 items-center justify-center rounded-lg">
               <img
                 src={projectConfig.brand.logoSrc}
@@ -22,7 +24,7 @@ export function SidebarTitle() {
               <span className="font-medium">{projectConfig.name}</span>
               <span className="">{projectConfig.version}</span>
             </div>
-          </a>
+          </Link>
         </SidebarMenuButton>
       </SidebarMenuItem>
     </SidebarMenu>

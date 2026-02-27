@@ -1,4 +1,8 @@
-import { createRouter, RouterProvider } from '@tanstack/react-router';
+import {
+  createHashHistory,
+  createRouter,
+  RouterProvider,
+} from '@tanstack/react-router';
 import ReactDOM from 'react-dom/client';
 
 import '@/styles/index.css';
@@ -15,9 +19,11 @@ import { useAuth } from '@/modules/auth/hooks/use-auth';
 import { routeTree } from './routeTree.gen';
 
 const queryClient = new QueryClient();
+const hashHistory = createHashHistory();
 
 // Set up a Router instance
 const router = createRouter({
+  history: hashHistory,
   routeTree,
   context: {
     queryClient,

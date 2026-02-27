@@ -1,5 +1,7 @@
 import type { NavigationItem } from '@/layout/types';
 
+import { Link } from '@tanstack/react-router';
+
 import {
   SidebarGroup,
   SidebarGroupContent,
@@ -19,14 +21,14 @@ export function SidebarNavSecondary({
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton asChild>
-                <a href={item.url}>
+                <Link to={item.url}>
                   {item.icon && (
                     <>
                       <item.icon />
                       <span>{item.title}</span>
                     </>
                   )}
-                </a>
+                </Link>
               </SidebarMenuButton>
             </SidebarMenuItem>
           ))}
