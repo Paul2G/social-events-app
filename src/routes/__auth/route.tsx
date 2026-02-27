@@ -1,9 +1,8 @@
-import {
-  createFileRoute,
-  Link,
-  Outlet,
-  redirect,
-} from '@tanstack/react-router';
+import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
+
+import { SidebarInset, SidebarProvider } from '@/core/components/ui/sidebar';
+import { PageHeader } from '@/layout/components/page-header';
+import { SidebarPrimary } from '@/layout/components/sidebar-primary';
 
 export const Route = createFileRoute('/__auth')({
   beforeLoad: async ({ context, location }) => {
@@ -23,21 +22,19 @@ export const Route = createFileRoute('/__auth')({
 
 function AuthLayout() {
   return (
-    <div className="p-2 h-full">
-      <h1>Authenticated Route</h1>
-      <p>This route's content is only visible to authenticated users.</p>
-      <ul className="py-2 flex gap-2">
-        <li>
-          <Link
-            to="/dashboard"
-            className='hover:underline data-[status="active"]:font-semibold'
-          >
-            Dashboard
-          </Link>
-        </li>
-      </ul>
-      <hr />
-      <Outlet />
-    </div>
+    <SidebarProvider
+      style={
+        {
+          '--sidebar-width': 'calc(var(--spacing) * 72)',
+          '--header-height': 'calc(var(--spacing) * 12)',
+        } as React.CSSProperties
+      }
+    >
+      <SidebarPrimary />
+      <SidebarInset>
+        <PageHeader />
+        <Outlet />
+      </SidebarInset>
+    </SidebarProvider>
   );
 }
