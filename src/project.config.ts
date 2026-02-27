@@ -1,8 +1,12 @@
 import { DateFormat } from '@/core/constants/dates';
 
 export default {
-  name: 'Social Events App',
-  brand: 'Social Events Hall',
+  name: 'Social Events Planner',
+  version: 'v1.0.0',
+  brand: {
+    name: 'Sevilla Social Hall',
+    logoSrc: '/logo.svg',
+  },
   time: {
     timeZone: 'America/Tijuana',
     dateTimeFormat: `${DateFormat.EUR_LATAM} hh:mm A`,

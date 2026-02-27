@@ -22,6 +22,7 @@ import { Input } from '@/core/components/ui/input';
 import { Spinner } from '@/core/components/ui/spinner';
 import { cn } from '@/core/lib/utils';
 import { loginSchema } from '@/modules/auth/schemas';
+import projectConfig from '@/project.config';
 
 export function LoginForm({
   onSubmit,
@@ -49,7 +50,10 @@ export function LoginForm({
     <div className={cn('flex flex-col gap-6', className)} {...props}>
       <Card>
         <CardHeader className="text-center">
-          <img src="/logo.svg" className="w-24 mx-auto py-4" />
+          <img
+            src={projectConfig.brand.logoSrc}
+            className="w-24 mx-auto py-4"
+          />
           <CardTitle className="text-xl">
             {t('greetings.welcomeBack')}
           </CardTitle>

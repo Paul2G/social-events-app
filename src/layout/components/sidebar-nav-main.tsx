@@ -1,6 +1,8 @@
-import type { Icon } from '@phosphor-icons/react';
+import type { NavigationItem } from '@/layout/types';
 
 import { CaretRightIcon } from '@phosphor-icons/react';
+import { Link } from '@tanstack/react-router';
+import { useTranslation } from 'react-i18next';
 
 import {
   Collapsible,
@@ -18,56 +20,69 @@ import {
   SidebarMenuSubItem,
 } from '@/core/components/ui/sidebar';
 
-export function SidebarNavMain({
-  items,
-}: {
-  items: {
-    title: string;
-    url: string;
-    icon?: Icon;
-    isActive?: boolean;
-    items?: {
-      title: string;
-      url: string;
-    }[];
-  }[];
-}) {
+export function SidebarNavMain({ items, ...props }: SidebarNavMainProps) {
+  const { t } = useTranslation();
+
   return (
-    <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+    <SidebarGroup {...props}>
+      <SidebarGroupLabel>{t('layout:tools')}</SidebarGroupLabel>
       <SidebarMenu>
-        {items.map((item) => (
-          <Collapsible
-            key={item.title}
-            asChild
-            defaultOpen={item.isActive}
-            className="group/collapsible"
-          >
-            <SidebarMenuItem>
-              <CollapsibleTrigger asChild>
+        {items.map((item) => {
+          if (!item?.items)
+            return (
+              <SidebarMenuItem key={item.title}>
                 <SidebarMenuButton tooltip={item.title}>
-                  {item.icon && <item.icon />}
-                  <span>{item.title}</span>
-                  <CaretRightIcon className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                  <Link
+                    to={item.url}
+                    className="contents  data-[status='active']:font-semibold"
+                  >
+                    {item.icon && <item.icon />}
+                    <span>{item.title}</span>
+                  </Link>
                 </SidebarMenuButton>
-              </CollapsibleTrigger>
-              <CollapsibleContent>
-                <SidebarMenuSub>
-                  {item.items?.map((subItem) => (
-                    <SidebarMenuSubItem key={subItem.title}>
-                      <SidebarMenuSubButton asChild>
-                        <a href={subItem.url}>
-                          <span>{subItem.title}</span>
-                        </a>
-                      </SidebarMenuSubButton>
-                    </SidebarMenuSubItem>
-                  ))}
-                </SidebarMenuSub>
-              </CollapsibleContent>
-            </SidebarMenuItem>
-          </Collapsible>
-        ))}
+              </SidebarMenuItem>
+            );
+
+          return (
+            <Collapsible
+              key={item.title}
+              asChild
+              defaultOpen={item.isActive}
+              className="group/collapsible"
+            >
+              <SidebarMenuItem>
+                <CollapsibleTrigger asChild>
+                  <SidebarMenuButton tooltip={item.title}>
+                    {item.icon && <item.icon />}
+                    <span>{item.title}</span>
+                    <CaretRightIcon className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
+                  </SidebarMenuButton>
+                </CollapsibleTrigger>
+                <CollapsibleContent>
+                  <SidebarMenuSub>
+                    {item.items?.map((subItem) => (
+                      <SidebarMenuSubItem key={subItem.title}>
+                        <SidebarMenuSubButton asChild>
+                          <Link
+                            to={subItem.url}
+                            className="data-[status='active']:font-semibold"
+                          >
+                            <span>{subItem.title}</span>
+                          </Link>
+                        </SidebarMenuSubButton>
+                      </SidebarMenuSubItem>
+                    ))}
+                  </SidebarMenuSub>
+                </CollapsibleContent>
+              </SidebarMenuItem>
+            </Collapsible>
+          );
+        })}
       </SidebarMenu>
     </SidebarGroup>
   );
 }
+
+export type SidebarNavMainProps = React.ComponentProps<'div'> & {
+  items: NavigationItem[];
+};
