@@ -9,19 +9,19 @@ export function useNavigationItems() {
     main: [
       {
         title: t('layout:navItems.dashboard'),
-        url: '/dashboard',
+        url: '/app/dashboard',
         icon: ChartPieIcon,
       },
     ],
     secondary: [
       {
         title: t('layout:navItems.settings'),
-        url: '/settings',
+        url: '/app/settings',
         icon: GearIcon,
       },
       {
         title: t('layout:navItems.getHelp'),
-        url: '/about',
+        url: '/app/about',
         icon: InfoIcon,
       },
     ],

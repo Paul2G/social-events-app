@@ -4,7 +4,7 @@ import { SidebarInset, SidebarProvider } from '@/core/components/ui/sidebar';
 import { PageHeader } from '@/layout/components/page-header';
 import { SidebarPrimary } from '@/layout/components/sidebar-primary';
 
-export const Route = createFileRoute('/__auth')({
+export const Route = createFileRoute('/app')({
   beforeLoad: async ({ context, location }) => {
     const user = await context.auth.verifySession();
 
@@ -17,10 +17,12 @@ export const Route = createFileRoute('/__auth')({
       });
     }
   },
-  component: AuthLayout,
+  component: AppLayout,
+  notFoundComponent: () => <p>No encontrado</p>,
+  errorComponent: () => <p>Ocurrió un error</p>,
 });
 
-function AuthLayout() {
+function AppLayout() {
   return (
     <SidebarProvider
       style={
@@ -33,7 +35,9 @@ function AuthLayout() {
       <SidebarPrimary />
       <SidebarInset>
         <PageHeader />
-        <Outlet />
+        <main className="p-6">
+          <Outlet />
+        </main>
       </SidebarInset>
     </SidebarProvider>
   );

@@ -12,8 +12,7 @@ import { z } from 'zod';
 import { LoginForm } from '@/modules/auth/components/forms/login-form';
 import { useAuth } from '@/modules/auth/hooks/use-auth';
 
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-const fallback = '/dashboard' as const;
+const fallback = '/app/dashboard' as const;
 
 export const Route = createFileRoute('/login')({
   validateSearch: z.object({
@@ -22,7 +21,7 @@ export const Route = createFileRoute('/login')({
   beforeLoad: async ({ context, search }) => {
     const user = await context.auth.verifySession();
 
-    if (Boolean(user)) {
+    if (user) {
       throw redirect({ to: search.redirect || fallback });
     }
   },
