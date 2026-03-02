@@ -31,10 +31,10 @@ export function SidebarNavMain({ items, ...props }: SidebarNavMainProps) {
           if (!item?.items)
             return (
               <SidebarMenuItem key={item.title}>
-                <SidebarMenuButton tooltip={item.title}>
+                <SidebarMenuButton tooltip={item.title} asChild>
                   <Link
                     to={item.url}
-                    className="contents  data-[status='active']:font-semibold"
+                    className="contents data-[status='active']:bg-secondary/80 data-[status='active']:font-semibold"
                   >
                     {item.icon && <item.icon />}
                     <span>{item.title}</span>
@@ -65,7 +65,7 @@ export function SidebarNavMain({ items, ...props }: SidebarNavMainProps) {
                         <SidebarMenuSubButton asChild>
                           <Link
                             to={subItem.url}
-                            className="data-[status='active']:font-semibold"
+                            className="data-[status='active']:bg-secondary/80 data-[status='active']:font-semibold"
                           >
                             <span>{subItem.title}</span>
                           </Link>

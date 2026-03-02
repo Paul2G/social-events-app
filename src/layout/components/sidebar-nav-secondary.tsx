@@ -21,7 +21,10 @@ export function SidebarNavSecondary({
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
               <SidebarMenuButton asChild>
-                <Link to={item.url}>
+                <Link
+                  to={item.url}
+                  className="data-[status='active']:bg-secondary/80 data-[status='active']:font-semibold"
+                >
                   {item.icon && (
                     <>
                       <item.icon />
