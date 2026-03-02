@@ -23,5 +23,6 @@ export const layout = {
     dashboard: 'Dashboard',
     settings: 'Configuración',
     getHelp: 'Obtener ayuda',
+    dummies: 'Dummies',
   },
 };
