@@ -1,3 +1,5 @@
+import type { CellContext } from '@tanstack/react-table';
+
 import { ArrowSquareOutIcon, EnvelopeIcon } from '@phosphor-icons/react';
 
 import { BadgeList } from '@/core/components/badge-list';
@@ -8,7 +10,13 @@ import { Button } from '@/core/components/ui/button';
 import { DataTableColumnType } from '@/core/constants/data-table';
 import { formatDate } from '@/core/lib/dates';
 
-export function DataTableCell({ value, type }: DataTableCellProps) {
+export function DataTableCell<TData>({
+  cell,
+  column,
+}: DataTableCellProps<TData>) {
+  const type = column.columnDef.meta?.columnType || DataTableColumnType.TEXT;
+  const value = cell.getValue();
+
   switch (type) {
     case DataTableColumnType.ID:
     case DataTableColumnType.NUMBER:
@@ -55,7 +63,4 @@ export function DataTableCell({ value, type }: DataTableCellProps) {
   }
 }
 
-export type DataTableCellProps = {
-  value: unknown;
-  type?: DataTableColumnType;
-};
+export type DataTableCellProps<TData> = CellContext<TData, unknown>;

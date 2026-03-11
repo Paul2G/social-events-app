@@ -1,52 +1,63 @@
 import type { Dummy } from '@/modules/dummies/types';
 import type { ColumnDef } from '@tanstack/react-table';
 
-import { Translation } from 'react-i18next';
-
 import { DataTableCell } from '@/core/components/date-table/data-table-cell';
+import { DataTableHeader } from '@/core/components/date-table/data-table-header';
+import { DataTableColumnType } from '@/core/constants/data-table';
 
 export const dummiesTableColumns: ColumnDef<Dummy>[] = [
   {
     accessorKey: 'name',
-    header: () => (
-      <Translation>
-        {(t) => <span>{t('core:greetings.welcomeBack')}</span>}
-      </Translation>
-    ),
+    meta: {
+      headerI18nKey: 'dummies:attribs.name',
+      columnType: DataTableColumnType.TEXT,
+    },
+    header: DataTableHeader,
+    cell: DataTableCell,
   },
   {
     accessorKey: 'image',
-    header: 'Image',
-    cell: ({ row }) => (
-      <DataTableCell value={row.getValue('image')} type="image" />
-    ),
+    meta: {
+      headerI18nKey: 'dummies:attribs.image',
+      columnType: DataTableColumnType.IMAGE,
+    },
+    header: DataTableHeader,
+    cell: DataTableCell,
   },
   {
     accessorKey: 'key',
-    header: 'Key',
-    cell: ({ row }) => (
-      <DataTableCell value={row.getValue('key')} type="badges" />
-    ),
+    meta: {
+      headerI18nKey: 'dummies:attribs.key',
+      columnType: DataTableColumnType.BADGES,
+    },
+    header: DataTableHeader,
+    cell: DataTableCell,
   },
   {
     accessorKey: 'email',
-    header: 'Email',
-    cell: ({ row }) => (
-      <DataTableCell value={row.getValue('email')} type="email" />
-    ),
+    meta: {
+      headerI18nKey: 'dummies:attribs.email',
+      columnType: DataTableColumnType.EMAIL,
+    },
+    header: DataTableHeader,
+    cell: DataTableCell,
   },
   {
     accessorKey: 'status',
-    header: 'Status',
-    cell: ({ row }) => (
-      <DataTableCell value={row.getValue('status')} type="status" />
-    ),
+    meta: {
+      headerI18nKey: 'dummies:attribs.status',
+      columnType: DataTableColumnType.STATUS,
+    },
+    header: DataTableHeader,
+    cell: DataTableCell,
   },
   {
     accessorKey: 'special',
-    header: 'Is Special?',
-    cell: ({ row }) => (
-      <DataTableCell value={row.getValue('special')} type="boolean" />
-    ),
+    meta: {
+      headerI18nKey: 'dummies:attribs.isSpecial',
+      columnType: DataTableColumnType.BOOLEAN,
+    },
+    header: DataTableHeader,
+    cell: DataTableCell,
   },
 ];
