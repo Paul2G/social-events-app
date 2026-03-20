@@ -1,4 +1,4 @@
-import type { ProblemDetails } from '@/core/types/fetch';
+import type { ProblemDetails } from '@/core/types/api';
 
 export class MissingIdError extends Error {
   constructor(message: string) {

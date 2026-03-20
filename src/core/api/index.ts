@@ -4,13 +4,13 @@ import {
   FetchRequestContentType,
   FetchResponseType,
   ServiceApi,
-} from '@/core/constants/fetch';
+} from '@/core/constants/api';
 import { MissingIdError } from '@/core/errors';
 import {
   type CommonDataRecord,
   type JSONValue,
   type PaginatedResponse,
-} from '@/core/types/fetch';
+} from '@/core/types/api';
 
 /** Retrieves all items from the specified API endpoint. */
 export function getAllItems<TData>(

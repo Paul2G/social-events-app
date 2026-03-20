@@ -1,4 +1,4 @@
-import type { CommonDataRecord } from '@/core/types/fetch';
+import type { CommonDataRecord } from '@/core/types/api';
 
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';

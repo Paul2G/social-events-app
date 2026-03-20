@@ -1,14 +1,18 @@
-export type Dummy = {
-  id: number;
-  key: string;
-  name: string;
-  count: number;
-  description: string;
-  created_at: string | null;
-  status: string;
-  email: string;
-  website: string;
-  image: string;
-  special: boolean;
-  price: number;
-};
+import { z } from 'zod';
+
+export const dummySchema = z.object({
+  id: z.number(),
+  key: z.string(),
+  name: z.string(),
+  count: z.number(),
+  description: z.string(),
+  created_at: z.string().nullable(),
+  status: z.string(),
+  email: z.email(),
+  website: z.url(),
+  image: z.url(),
+  special: z.boolean(),
+  price: z.number(),
+});
+
+export type Dummy = z.infer<typeof dummySchema>;

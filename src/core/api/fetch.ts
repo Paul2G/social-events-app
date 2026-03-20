@@ -3,10 +3,10 @@ import {
   FetchRequestContentType,
   FetchResponseType,
   ServiceApi,
-} from '@/core/constants/fetch';
+} from '@/core/constants/api';
 import { NotOkResponseError } from '@/core/errors';
 import { getSearchParamsFromObjectForBaseApi } from '@/core/lib/search-params';
-import { type CommonDataRecord } from '@/core/types/fetch';
+import { type CommonDataRecord } from '@/core/types/api';
 import { getUserToken } from '@/modules/auth/lib/token';
 import projectConfig from '@/project.config';
 
