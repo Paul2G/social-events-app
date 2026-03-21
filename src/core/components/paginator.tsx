@@ -1,3 +1,5 @@
+import type { PaginationPageSize } from '@/core/types/api';
+
 import { useId } from 'react';
 import {
   CaretLeftIcon,
@@ -28,6 +30,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/core/components/ui/tooltip';
+import { DEFAULT_PAGE_SIZES } from '@/core/constants/api';
 import { useBreakpoint } from '@/core/hooks/use-breakpoint';
 import { usePagination } from '@/core/hooks/use-pagination';
 
@@ -59,7 +62,9 @@ export function Paginator({
           <Label htmlFor={rowsSelectorId}>{t('paginator.itemsPerPage')}</Label>
           <Select
             value={pageSize.toString()}
-            onValueChange={(value) => setPageSize(Number(value))}
+            onValueChange={(value) =>
+              setPageSize(Number(value) as PaginationPageSize)
+            }
           >
             <SelectTrigger
               id={rowsSelectorId}
@@ -68,9 +73,11 @@ export function Paginator({
               <SelectValue />
             </SelectTrigger>
             <SelectContent className="[&_*[role=option]]:pr-8 [&_*[role=option]]:pl-2 [&_*[role=option]>span]:right-2 [&_*[role=option]>span]:left-auto">
-              <SelectItem value="10">10</SelectItem>
-              <SelectItem value="25">25</SelectItem>
-              <SelectItem value="50">50</SelectItem>
+              {DEFAULT_PAGE_SIZES.map((n) => (
+                <SelectItem value={n.toString()} key={n}>
+                  {n}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </div>
@@ -186,5 +193,5 @@ export type PaginatorProps = {
   pageSize: number;
   currentPage: number;
   setPage: (page: number) => void;
-  setPageSize: (pageSize: number) => void;
+  setPageSize: (pageSize: PaginationPageSize) => void;
 };
