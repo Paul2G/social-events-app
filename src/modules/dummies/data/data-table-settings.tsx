@@ -8,6 +8,15 @@ import { DataTableColumnType } from '@/core/constants/data-table';
 
 export const dummiesTableColumns: ColumnDef<Dummy>[] = [
   {
+    accessorKey: 'id',
+    meta: {
+      headerI18nKey: 'dummies:attribs.id',
+      columnType: DataTableColumnType.ID,
+    },
+    header: DataTableHeader,
+    cell: DataTableCell,
+  },
+  {
     accessorKey: 'name',
     meta: {
       headerI18nKey: 'dummies:attribs.name',
