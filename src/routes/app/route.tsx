@@ -1,5 +1,6 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router';
 
+import { NavigationProgress } from '@/core/components/navigation-progress';
 import { SidebarInset, SidebarProvider } from '@/core/components/ui/sidebar';
 import { PageHeader } from '@/layout/components/page-header';
 import { SidebarPrimary } from '@/layout/components/sidebar-primary';
@@ -32,6 +33,7 @@ function AppLayout() {
         } as React.CSSProperties
       }
     >
+      <NavigationProgress />
       <SidebarPrimary />
       <SidebarInset>
         <PageHeader />
