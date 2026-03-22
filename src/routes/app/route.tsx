@@ -37,7 +37,7 @@ function AppLayout() {
       <SidebarPrimary />
       <SidebarInset>
         <PageHeader />
-        <main className="p-6">
+        <main className="grow p-6">
           <Outlet />
         </main>
       </SidebarInset>

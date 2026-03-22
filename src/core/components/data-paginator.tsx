@@ -1,4 +1,4 @@
-import type { PaginationPageSize } from '@/core/types/api';
+import type { PaginationPageSize } from '@/core/types/search-params';
 
 import { useId } from 'react';
 import {
@@ -33,13 +33,16 @@ import {
 import { DEFAULT_PAGE_SIZES } from '@/core/constants/api';
 import { useBreakpoint } from '@/core/hooks/use-breakpoint';
 import { usePagination } from '@/core/hooks/use-pagination';
+import { cn } from '@/core/lib/utils';
 
-export function Paginator({
+export function DataPaginator({
   totalItems,
   pageSize,
   currentPage,
   setPage,
   setPageSize,
+  className,
+  ...restOfProps
 }: PaginatorProps) {
   const { t } = useTranslation();
 
@@ -56,7 +59,13 @@ export function Paginator({
   if (totalPages <= 1) return null;
 
   return (
-    <div className="flex w-full flex-wrap items-center justify-between gap-6 max-sm:justify-center">
+    <div
+      className={cn(
+        'flex w-full flex-wrap items-center justify-between gap-6 max-sm:justify-center',
+        className,
+      )}
+      {...restOfProps}
+    >
       {!isMobile && (
         <div className="flex shrink-0 items-center gap-3">
           <Label htmlFor={rowsSelectorId}>{t('paginator.itemsPerPage')}</Label>
@@ -188,7 +197,7 @@ export function Paginator({
   );
 }
 
-export type PaginatorProps = {
+export type PaginatorProps = React.ComponentProps<'div'> & {
   totalItems: number;
   pageSize: number;
   currentPage: number;

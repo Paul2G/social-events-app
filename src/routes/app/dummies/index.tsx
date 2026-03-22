@@ -8,8 +8,8 @@ import {
   useSearch,
 } from '@tanstack/react-router';
 
+import { DataPaginator } from '@/core/components/data-paginator';
 import { DataTable } from '@/core/components/data-table';
-import { Paginator } from '@/core/components/paginator';
 import { paginationParamsSchema } from '@/core/types/api';
 import { dummiesQueryOptions } from '@/modules/dummies/api/query-options';
 import {
@@ -19,16 +19,16 @@ import {
 
 export const Route = createFileRoute('/app/dummies/')({
   validateSearch: paginationParamsSchema,
-  loaderDeps: ({ search: { page, pageSize } }) => ({ page, pageSize }),
-  loader: async ({ context: { queryClient }, deps: { page, pageSize } }) =>
-    queryClient.ensureQueryData(dummiesQueryOptions({ page, pageSize })),
+  loaderDeps: ({ search }) => search,
+  loader: async ({ context: { queryClient }, deps }) =>
+    queryClient.ensureQueryData(dummiesQueryOptions(deps)),
   component: RouteComponent,
 });
 
 function RouteComponent() {
-  const pagination = useSearch({ from: '/app/dummies/' });
+  const search = useSearch({ from: '/app/dummies/' });
   const navigate = useNavigate({ from: '/app/dummies/' });
-  const { data } = useSuspenseQuery(dummiesQueryOptions(pagination));
+  const { data } = useSuspenseQuery(dummiesQueryOptions(search));
 
   // Should be part of columns settings schema
   const [columnVisibility, setColumnVisibility] = useState(
@@ -42,16 +42,17 @@ function RouteComponent() {
   }
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="min-h-full flex flex-col gap-2">
       <DataTable
         data={data.items}
         columns={dummiesTableColumns}
         columnVisibility={columnVisibility}
         setColumnVisibility={setColumnVisibility}
       />
-      <Paginator
-        currentPage={pagination.page}
-        pageSize={pagination.pageSize}
+      <DataPaginator
+        className="mt-auto"
+        currentPage={search.page}
+        pageSize={search.pageSize}
         totalItems={data.meta.total}
         setPage={(page) => setPagination({ page })}
         setPageSize={(pageSize) => setPagination({ pageSize, page: 1 })}
