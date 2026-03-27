@@ -3,10 +3,15 @@ import type { QueryClient } from '@tanstack/react-query';
 
 import { useEffect } from 'react';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { createRootRouteWithContext, Outlet } from '@tanstack/react-router';
+import {
+  createRootRouteWithContext,
+  HeadContent,
+  Outlet,
+} from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/react-router-devtools';
 import { useTranslation } from 'react-i18next';
 
+import { createRouteHead } from '@/layout/lib/create-route-head';
 import {
   getUserLocalePreference,
   setLocaleInDocument,
@@ -19,6 +24,7 @@ type RootRouteContext = {
 };
 
 export const Route = createRootRouteWithContext<RootRouteContext>()({
+  head: createRouteHead({ type: 'root' }),
   component: RootLayout,
 });
 
@@ -34,6 +40,7 @@ export function RootLayout() {
 
   return (
     <>
+      <HeadContent />
       <Outlet />
       <ReactQueryDevtools buttonPosition="bottom-left" />
       <TanStackRouterDevtools position="bottom-right" />

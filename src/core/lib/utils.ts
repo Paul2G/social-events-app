@@ -32,3 +32,24 @@ export function snakeToCamelCase(str: string) {
       group.toUpperCase().replace('-', '').replace('_', ''),
     );
 }
+
+/**
+ * Get the value of a nested object property
+ * @author Aleksei Tsikov <@atsikov>
+ */
+export function getValue<T = unknown>(
+  //The object to get the value from
+  data: T,
+  //The path to the value
+  path: string,
+  //The default value if the path is not found
+  defaultValue?: T,
+) {
+  const value = path
+    .split(/[.[\]]/)
+    .filter(Boolean)
+    // @ts-expect-error This functions is supposed to be totally agnostic, it's normal keys don't be found
+    .reduce((value, key) => value?.[key], data);
+
+  return value !== undefined ? value : defaultValue;
+}
