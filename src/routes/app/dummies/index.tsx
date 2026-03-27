@@ -11,7 +11,7 @@ import {
 import { DataPaginator } from '@/core/components/data-paginator';
 import { DataTable } from '@/core/components/data-table';
 import { paginationParamsSchema } from '@/core/types/search-params';
-import { dummiesQueryOptions } from '@/modules/dummies/api/query-options';
+import { dummiesIndexQueryOptions } from '@/modules/dummies/api/query-options';
 import {
   dummiesColumnsDefaultState,
   dummiesTableColumns,
@@ -21,14 +21,14 @@ export const Route = createFileRoute('/app/dummies/')({
   validateSearch: paginationParamsSchema,
   loaderDeps: ({ search }) => search,
   loader: async ({ context: { queryClient }, deps }) =>
-    queryClient.ensureQueryData(dummiesQueryOptions(deps)),
+    queryClient.ensureQueryData(dummiesIndexQueryOptions(deps)),
   component: RouteComponent,
 });
 
 function RouteComponent() {
   const search = useSearch({ from: '/app/dummies/' });
   const navigate = useNavigate({ from: '/app/dummies/' });
-  const { data } = useSuspenseQuery(dummiesQueryOptions(search));
+  const { data } = useSuspenseQuery(dummiesIndexQueryOptions(search));
 
   // Should be part of columns settings schema
   const [columnVisibility, setColumnVisibility] = useState(

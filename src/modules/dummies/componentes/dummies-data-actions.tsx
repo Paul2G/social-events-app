@@ -1,6 +1,8 @@
+import type { Dummy } from '@/modules/dummies/types';
 import type { CellContext } from '@tanstack/react-table';
 
 import { DotsThreeIcon, PencilIcon, TrashIcon } from '@phosphor-icons/react';
+import { useNavigate } from '@tanstack/react-router';
 
 import { Button } from '@/core/components/ui/button';
 import {
@@ -11,9 +13,11 @@ import {
   DropdownMenuTrigger,
 } from '@/core/components/ui/dropdown-menu';
 
-export function DummiesDataActions<TData>({
-  ...restOfProps
-}: DataActionsProps<TData>) {
+export function DummiesDataActions({ row, ...restOfProps }: DataActionsProps) {
+  const itemId = row.original.id;
+
+  const navigate = useNavigate();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -22,7 +26,9 @@ export function DummiesDataActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuItem>
+        <DropdownMenuItem
+          onClick={() => navigate({ to: `/app/dummies/${itemId}/edit` })}
+        >
           <PencilIcon />
           Edit
         </DropdownMenuItem>
@@ -36,5 +42,5 @@ export function DummiesDataActions<TData>({
   );
 }
 
-export type DataActionsProps<TData> = React.ComponentProps<'button'> &
-  CellContext<TData, unknown> & {};
+export type DataActionsProps = React.ComponentProps<'button'> &
+  CellContext<Dummy, unknown> & {};
