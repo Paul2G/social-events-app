@@ -38,6 +38,7 @@ export const core = {
     create: 'Create',
     addNew: 'Add new',
     reload: 'Reload',
+    search: 'Search',
     clearFilters: 'Clear filters',
     selectColumns: 'Select columns',
     downloadReport: 'Download report',
