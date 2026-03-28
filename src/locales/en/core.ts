@@ -35,6 +35,7 @@ export const core = {
     hardDelete: 'Hard delete',
     view: 'View',
     // Content table actions
+    create: 'Create',
     addNew: 'Add new',
     reload: 'Reload',
     clearFilters: 'Clear filters',

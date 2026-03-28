@@ -22,6 +22,7 @@ export function DataTable<TData>({
   columns,
   columnVisibility,
   setColumnVisibility,
+  children,
 }: DataTableProps<TData>) {
   const table = useReactTable({
     data,
@@ -36,8 +37,9 @@ export function DataTable<TData>({
 
   return (
     <>
-      <div className="flex justify-end">
-        <DataTableColumnSelector table={table} />
+      <div className="flex gap-2">
+        {children}
+        <DataTableColumnSelector table={table} className="ml-auto" />
       </div>
       <div className="overflow-hidden rounded-md border">
         <Table>
@@ -100,4 +102,5 @@ export type DataTableProps<TData> = {
   setColumnVisibility: (
     visibilityState: DataTableColumnVisibilityState<TData>,
   ) => void;
+  children?: React.ReactNode;
 };

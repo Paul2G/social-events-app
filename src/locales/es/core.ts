@@ -35,6 +35,7 @@ export const core = {
     hardDelete: 'Eliminar permanentemente',
     view: 'Ver',
     // Content table actions
+    create: 'Crear',
     addNew: 'Añadir nuevo',
     reload: 'Recargar',
     clearFilters: 'Limpiar filtros',

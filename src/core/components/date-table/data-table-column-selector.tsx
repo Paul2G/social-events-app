@@ -10,16 +10,23 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/core/components/ui/dropdown-menu';
+import { cn } from '@/core/lib/utils';
 
 export function DataTableColumnSelector<TData>({
   table,
+  className,
+  ...restOfProps
 }: DataTableColumnSelectorProps<TData>) {
   const { t } = useTranslation();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="ml-auto cursor-pointer">
+        <Button
+          variant="outline"
+          className={cn('cursor-pointer', className)}
+          {...restOfProps}
+        >
           <ColumnsPlusRightIcon />
           {t('nouns.column_other')}
           <CaretDownIcon />
@@ -46,6 +53,7 @@ export function DataTableColumnSelector<TData>({
   );
 }
 
-export type DataTableColumnSelectorProps<TData> = {
-  table: Table<TData>;
-};
+export type DataTableColumnSelectorProps<TData> =
+  React.ComponentProps<'button'> & {
+    table: Table<TData>;
+  };
