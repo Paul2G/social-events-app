@@ -6,6 +6,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from '@tanstack/react-table';
+import { useTranslation } from 'react-i18next';
 
 import { DataTableColumnSelector } from '@/core/components/date-table/data-table-column-selector';
 import {
@@ -24,6 +25,8 @@ export function DataTable<TData>({
   setColumnVisibility,
   children,
 }: DataTableProps<TData>) {
+  const { t } = useTranslation();
+
   const table = useReactTable({
     data,
     columns,
@@ -84,7 +87,7 @@ export function DataTable<TData>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  {t('dialogs.noResultsFound')}
                 </TableCell>
               </TableRow>
             )}
