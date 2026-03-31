@@ -1,8 +1,8 @@
 import {
+  BookmarksIcon,
   ChartPieIcon,
   GearIcon,
   InfoIcon,
-  PlaceholderIcon,
 } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
@@ -20,7 +20,7 @@ export function useNavigationItems() {
       {
         title: t('layout:navItems.dummies'),
         url: '/app/dummies',
-        icon: PlaceholderIcon,
+        icon: BookmarksIcon,
       },
     ],
     secondary: [
