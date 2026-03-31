@@ -47,7 +47,19 @@ export function DataSearch({
         />
         {isStringValid(searchValue) && (
           <InputGroupAddon align="inline-end" className="pr-1">
-            <Button variant="ghost" size="icon">
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              aria-label={t('actions.clear')}
+              onClick={() => {
+                setSearchValue('');
+                navigate({
+                  // @ts-expect-error Yes
+                  search: (prev) => ({ ...prev, [searchParamKey]: undefined }),
+                });
+              }}
+            >
               <XIcon />
             </Button>
           </InputGroupAddon>
