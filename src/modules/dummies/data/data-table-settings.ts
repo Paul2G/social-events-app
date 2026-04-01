@@ -5,7 +5,7 @@ import type { ColumnDef } from '@tanstack/react-table';
 import { DataTableCell } from '@/core/components/date-table/data-table-cell';
 import { DataTableHeader } from '@/core/components/date-table/data-table-header';
 import { DataTableColumnType } from '@/core/constants/data-table';
-import { DummiesDataActions } from '@/modules/dummies/componentes/dummies-data-actions';
+import { DummyActions } from '@/modules/dummies/componentes/dummy-actions';
 
 export const dummiesTableColumns: ColumnDef<Dummy>[] = [
   {
@@ -73,8 +73,17 @@ export const dummiesTableColumns: ColumnDef<Dummy>[] = [
     cell: DataTableCell,
   },
   {
+    accessorKey: 'created_at',
+    meta: {
+      headerI18nKey: 'dummies:attribs.createdAt',
+      columnType: DataTableColumnType.DATETIME,
+    },
+    header: DataTableHeader,
+    cell: DataTableCell,
+  },
+  {
     id: 'actions',
-    cell: DummiesDataActions,
+    cell: DummyActions,
     enableHiding: false,
   },
 ];

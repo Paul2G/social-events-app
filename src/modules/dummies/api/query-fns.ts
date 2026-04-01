@@ -1,5 +1,9 @@
 import type { PaginatedResponse } from '@/core/types/api';
-import type { DummiesSearchParams, Dummy } from '@/modules/dummies/types';
+import type {
+  DummiesSearchParams,
+  Dummy,
+  DummyFormData,
+} from '@/modules/dummies/types';
 
 import { isStringValid, sleep } from '@/core/lib/utils';
 import { getDummiesFromLocalStorage } from '@/modules/dummies/lib/utils';
@@ -45,7 +49,7 @@ export async function getDummyById(id: number) {
   return getDummiesFromLocalStorage().find((d) => d.id === id) || null;
 }
 
-export async function createDummy(dummy: Omit<Dummy, 'id' | 'created_at'>) {
+export async function createDummy(dummy: DummyFormData) {
   await sleep(150);
 
   const dummies = getDummiesFromLocalStorage();
@@ -56,8 +60,44 @@ export async function createDummy(dummy: Omit<Dummy, 'id' | 'created_at'>) {
     created_at: new Date().toString(),
   };
 
-  dummies.push(newDummy);
-  localStorage.setItem('dummies', dummies.toString());
+  dummies.unshift(newDummy);
+  localStorage.setItem('dummies', JSON.stringify(dummies));
 
   return newDummy;
+}
+
+export async function updateDummy(id: number, dummy: DummyFormData) {
+  await sleep(150);
+
+  const dummies = getDummiesFromLocalStorage();
+
+  const index = dummies.findIndex((d) => d.id === id);
+  if (index === -1) {
+    throw new Error('Dummy not found');
+  }
+
+  const updatedDummy = {
+    ...dummies[index],
+    ...dummy,
+    id,
+  };
+
+  dummies[index] = updatedDummy;
+  localStorage.setItem('dummies', JSON.stringify(dummies));
+
+  return updatedDummy;
+}
+
+export async function deleteDummy(id: number) {
+  await sleep(150);
+
+  const dummies = getDummiesFromLocalStorage();
+
+  const index = dummies.findIndex((d) => d.id === id);
+  if (index === -1) {
+    throw new Error('Dummy not found');
+  }
+
+  dummies.splice(index, 1);
+  localStorage.setItem('dummies', JSON.stringify(dummies));
 }

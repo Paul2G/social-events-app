@@ -4,18 +4,24 @@ import { ItemStatus } from '@/core/constants/misc';
 import { paginationSearchSchema } from '@/core/types/search-params';
 
 export const dummySchema = z.object({
+  // Server-generated fields
   id: z.number(),
-  key: z.string(),
-  name: z.string(),
-  count: z.number(),
+  created_at: z.string(),
+  // Form field
+  key: z.string().min(1),
+  name: z.string().min(1),
+  count: z.number().min(0),
   description: z.string(),
-  created_at: z.string().nullable(),
   status: z.string(),
   email: z.email(),
   website: z.url(),
   image: z.url(),
   special: z.boolean(),
   price: z.number(),
+});
+export const dummyFormSchema = dummySchema.omit({
+  id: true,
+  created_at: true,
 });
 
 export const dummiesFiltersSchema = z.object({

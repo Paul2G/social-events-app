@@ -1,18 +1,15 @@
 import type { DummiesSearchParams } from '@/modules/dummies/types';
 
 import { useState } from 'react';
-import { PlusIcon } from '@phosphor-icons/react';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { createFileRoute, useSearch } from '@tanstack/react-router';
-import { useTranslation } from 'react-i18next';
 
 import { DataPaginator } from '@/core/components/data-paginator';
 import { DataSearch } from '@/core/components/data-search';
 import { DataTable } from '@/core/components/data-table';
-import { Button } from '@/core/components/ui/button';
-import { Typography } from '@/core/components/ui/typography';
 import { createRouteHead } from '@/layout/lib/create-route-head';
 import { dummiesIndexQueryOptions } from '@/modules/dummies/api/query-options';
+import { DummiesHeader } from '@/modules/dummies/componentes/dummies-header';
 import {
   dummiesColumnsDefaultState,
   dummiesTableColumns,
@@ -32,8 +29,6 @@ export const Route = createFileRoute('/app/dummies/')({
 });
 
 function RouteComponent() {
-  const { t } = useTranslation();
-
   const search = useSearch({ from: '/app/dummies/' });
   const { data } = useSuspenseQuery(dummiesIndexQueryOptions(search));
 
@@ -44,15 +39,7 @@ function RouteComponent() {
 
   return (
     <div className="min-h-full flex flex-col gap-4">
-      <div className="flex justify-between">
-        <Typography variant="h1">{t('layout:navItems.dummies')}</Typography>
-        <div className="flex gap-2">
-          <Button>
-            <PlusIcon />
-            {t('dummies:actions.addNew')}
-          </Button>
-        </div>
-      </div>
+      <DummiesHeader />
       <DataTable
         data={data.items}
         columns={dummiesTableColumns}
