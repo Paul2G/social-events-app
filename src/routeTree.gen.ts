@@ -16,7 +16,6 @@ import { Route as AppIndexRouteImport } from './routes/app/index'
 import { Route as AppDashboardRouteImport } from './routes/app/dashboard'
 import { Route as AppDummiesRouteRouteImport } from './routes/app/dummies/route'
 import { Route as AppDummiesIndexRouteImport } from './routes/app/dummies/index'
-import { Route as AppDummiesItemIdEditRouteImport } from './routes/app/dummies/$itemId.edit'
 
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
@@ -53,11 +52,6 @@ const AppDummiesIndexRoute = AppDummiesIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AppDummiesRouteRoute,
 } as any)
-const AppDummiesItemIdEditRoute = AppDummiesItemIdEditRouteImport.update({
-  id: '/$itemId/edit',
-  path: '/$itemId/edit',
-  getParentRoute: () => AppDummiesRouteRoute,
-} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -67,7 +61,6 @@ export interface FileRoutesByFullPath {
   '/app/dashboard': typeof AppDashboardRoute
   '/app/': typeof AppIndexRoute
   '/app/dummies/': typeof AppDummiesIndexRoute
-  '/app/dummies/$itemId/edit': typeof AppDummiesItemIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -75,7 +68,6 @@ export interface FileRoutesByTo {
   '/app/dashboard': typeof AppDashboardRoute
   '/app': typeof AppIndexRoute
   '/app/dummies': typeof AppDummiesIndexRoute
-  '/app/dummies/$itemId/edit': typeof AppDummiesItemIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -86,7 +78,6 @@ export interface FileRoutesById {
   '/app/dashboard': typeof AppDashboardRoute
   '/app/': typeof AppIndexRoute
   '/app/dummies/': typeof AppDummiesIndexRoute
-  '/app/dummies/$itemId/edit': typeof AppDummiesItemIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -98,15 +89,8 @@ export interface FileRouteTypes {
     | '/app/dashboard'
     | '/app/'
     | '/app/dummies/'
-    | '/app/dummies/$itemId/edit'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/login'
-    | '/app/dashboard'
-    | '/app'
-    | '/app/dummies'
-    | '/app/dummies/$itemId/edit'
+  to: '/' | '/login' | '/app/dashboard' | '/app' | '/app/dummies'
   id:
     | '__root__'
     | '/'
@@ -116,7 +100,6 @@ export interface FileRouteTypes {
     | '/app/dashboard'
     | '/app/'
     | '/app/dummies/'
-    | '/app/dummies/$itemId/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -176,24 +159,15 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AppDummiesIndexRouteImport
       parentRoute: typeof AppDummiesRouteRoute
     }
-    '/app/dummies/$itemId/edit': {
-      id: '/app/dummies/$itemId/edit'
-      path: '/$itemId/edit'
-      fullPath: '/app/dummies/$itemId/edit'
-      preLoaderRoute: typeof AppDummiesItemIdEditRouteImport
-      parentRoute: typeof AppDummiesRouteRoute
-    }
   }
 }
 
 interface AppDummiesRouteRouteChildren {
   AppDummiesIndexRoute: typeof AppDummiesIndexRoute
-  AppDummiesItemIdEditRoute: typeof AppDummiesItemIdEditRoute
 }
 
 const AppDummiesRouteRouteChildren: AppDummiesRouteRouteChildren = {
   AppDummiesIndexRoute: AppDummiesIndexRoute,
-  AppDummiesItemIdEditRoute: AppDummiesItemIdEditRoute,
 }
 
 const AppDummiesRouteRouteWithChildren = AppDummiesRouteRoute._addFileChildren(
