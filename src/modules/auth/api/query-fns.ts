@@ -11,6 +11,8 @@ export async function login(data: LoginData): Promise<User> {
       id: 'skKjd78a-#',
       username: 'admin',
       email: 'admin@example.com',
+      roles: ['admin'],
+      permissions: [],
     };
   }
 
@@ -32,6 +34,8 @@ export async function verifySession(token: string): Promise<User> {
       id: 'skKjd78a-#',
       username: 'admin',
       email: 'admin@example.com',
+      roles: ['admin'],
+      permissions: [],
     };
   }
 

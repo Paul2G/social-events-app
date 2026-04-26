@@ -29,6 +29,20 @@ export function AuthProvider({ children }: AuthProviderProps) {
     },
   });
 
+  const checkPermissions = (permissions: string[] | string) =>
+    Boolean(
+      typeof permissions === 'string'
+        ? user?.permissions.includes(permissions)
+        : user?.permissions.some((p) => permissions.includes(p)),
+    );
+
+  const checkRoles = (roles: string[] | string) =>
+    Boolean(
+      typeof roles === 'string'
+        ? user?.roles.includes(roles)
+        : user?.roles.some((p) => roles.includes(p)),
+    );
+
   return (
     <AuthContext.Provider
       value={{
@@ -36,6 +50,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
         isAuthenticated: Boolean(user),
         login: loginMutation.mutateAsync,
         logout: logoutMutation.mutateAsync,
+        p: checkPermissions,
+        r: checkRoles,
       }}
     >
       {children}
@@ -48,6 +64,8 @@ export type AuthContextValue = {
   user: User | null;
   login: (data: LoginData) => Promise<User>;
   logout: () => Promise<void>;
+  p: (permissions: string[] | string) => boolean;
+  r: (roles: string[] | string) => boolean;
 };
 
 export type AuthProviderProps = {
