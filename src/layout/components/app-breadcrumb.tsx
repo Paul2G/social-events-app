@@ -10,7 +10,7 @@ import {
   BreadcrumbSeparator,
 } from '@/core/components/ui/breadcrumb';
 
-export function PageBreadcrumb() {
+export function AppBreadcrumb() {
   const matches = useMatches();
 
   const hasTitleTag = (tag: unknown): tag is { title: string } =>
@@ -27,8 +27,11 @@ export function PageBreadcrumb() {
 
   if (crumbs.length === 0) return null;
 
-  const showAnimation = "animate-in fill-mode-backwards slide-in-from-left-5 fade-in easy-out duration-500";
-  const animationDelay = (idx: number) => ({animationDelay: `${idx*100}ms`})
+  const showAnimation =
+    'animate-in fill-mode-backwards slide-in-from-left-5 fade-in easy-out duration-500';
+  const animationDelay = (idx: number) => ({
+    animationDelay: `${idx * 100}ms`,
+  });
 
   return (
     <Breadcrumb>
@@ -37,17 +40,27 @@ export function PageBreadcrumb() {
           const isLast = index === crumbs.length - 1;
 
           return isLast ? (
-            <BreadcrumbItem className={showAnimation} style={animationDelay(index)} key={crumb.pathname}>
+            <BreadcrumbItem
+              className={showAnimation}
+              style={animationDelay(index)}
+              key={crumb.pathname}
+            >
               <BreadcrumbPage>{crumb.title}</BreadcrumbPage>
             </BreadcrumbItem>
           ) : (
             <Fragment key={crumb.pathname}>
-              <BreadcrumbItem className={showAnimation} style={animationDelay(index)}>
+              <BreadcrumbItem
+                className={showAnimation}
+                style={animationDelay(index)}
+              >
                 <BreadcrumbLink asChild>
                   <Link to={crumb.pathname}>{crumb.title}</Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
-              <BreadcrumbSeparator className={showAnimation} style={animationDelay(index)} />
+              <BreadcrumbSeparator
+                className={showAnimation}
+                style={animationDelay(index)}
+              />
             </Fragment>
           );
         })}
