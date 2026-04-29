@@ -1,8 +1,7 @@
-import type { NavigationItem } from '@/layout/types';
+import type { NavigationGroup, NavigationItem } from '@/layout/types';
 
 import { CaretRightIcon } from '@phosphor-icons/react';
 import { Link } from '@tanstack/react-router';
-import { useTranslation } from 'react-i18next';
 
 import {
   Collapsible,
@@ -19,15 +18,38 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from '@/core/components/ui/sidebar';
+import { useAuth } from '@/modules/auth/hooks/use-auth';
 
-export function SidebarNavMain({ items, ...props }: SidebarNavMainProps) {
-  const { t } = useTranslation();
+export function SidebarNavMain({ groups, ...props }: SidebarNavMainProps) {
+  const { p } = useAuth();
 
-  return (
+  if (!groups.length) return null;
+
+  const filteredGroups = groups
+    .map((group) => ({
+      ...group,
+      items: group.items
+        .map((item) => {
+          if (!p(item.permissions)) return null;
+          if (!item?.items) return item;
+
+          const filteredSubItems = item.items.filter((subItem) =>
+            p(subItem.permissions),
+          );
+
+          if (!filteredSubItems.length) return null;
+
+          return { ...item, items: filteredSubItems };
+        })
+        .filter(Boolean) as NavigationItem[],
+    }))
+    .filter((group) => group.items.length);
+
+  return filteredGroups.map((group) => (
     <SidebarGroup {...props}>
-      <SidebarGroupLabel>{t('layout:tools')}</SidebarGroupLabel>
+      <SidebarGroupLabel>{group.label}</SidebarGroupLabel>
       <SidebarMenu>
-        {items.map((item) => {
+        {group.items.map((item) => {
           if (!item?.items)
             return (
               <SidebarMenuItem key={item.title}>
@@ -47,7 +69,7 @@ export function SidebarNavMain({ items, ...props }: SidebarNavMainProps) {
             <Collapsible
               key={item.title}
               asChild
-              defaultOpen={item.isActive}
+              defaultOpen={item.defaultOpen}
               className="group/collapsible"
             >
               <SidebarMenuItem>
@@ -80,9 +102,9 @@ export function SidebarNavMain({ items, ...props }: SidebarNavMainProps) {
         })}
       </SidebarMenu>
     </SidebarGroup>
-  );
+  ));
 }
 
 export type SidebarNavMainProps = React.ComponentProps<'div'> & {
-  items: NavigationItem[];
+  groups: NavigationGroup[];
 };

@@ -21,8 +21,8 @@ export function SidebarPrimary({
       <SidebarHeader>
         <SidebarTitle />
       </SidebarHeader>
-      <SidebarContent>
-        <SidebarNavMain items={navItems.main} />
+      <SidebarContent className="gap-0">
+        <SidebarNavMain groups={navItems.main} />
         <SidebarNavSecondary items={navItems.secondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>

@@ -1,3 +1,5 @@
+import type { NavigationGroup, NavigationItem } from '@/layout/types';
+
 import {
   BookmarksIcon,
   ChartPieIcon,
@@ -6,21 +8,27 @@ import {
 } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
-export function useNavigationItems() {
+export function useNavigationItems(): UseNavigationItemsReturn {
   const { t } = useTranslation();
 
-  // TODO: Check optimization here
   return {
     main: [
       {
-        title: t('layout:navItems.dashboard'),
-        url: '/app/dashboard',
-        icon: ChartPieIcon,
-      },
-      {
-        title: t('layout:navItems.dummies'),
-        url: '/app/dummies',
-        icon: BookmarksIcon,
+        label: t('layout:navItems.tools'),
+        items: [
+          {
+            title: t('layout:navItems.dashboard'),
+            url: '/app/dashboard',
+            icon: ChartPieIcon,
+            permissions: 'dashboard.read',
+          },
+          {
+            title: t('layout:navItems.dummies'),
+            url: '/app/dummies',
+            icon: BookmarksIcon,
+            permissions: 'dummies.read',
+          },
+        ],
       },
     ],
     secondary: [
@@ -37,3 +45,8 @@ export function useNavigationItems() {
     ],
   };
 }
+
+export type UseNavigationItemsReturn = {
+  main: NavigationGroup[];
+  secondary: NavigationItem[];
+};

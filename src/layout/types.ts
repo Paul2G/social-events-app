@@ -4,6 +4,12 @@ export type NavigationItem = {
   title: string;
   url: string;
   icon?: Icon;
-  isActive?: boolean;
-  items?: NavigationItem[];
+  permissions?: string | string[];
+  items?: Omit<NavigationItem, 'items'>[];
+  defaultOpen?: boolean;
+};
+
+export type NavigationGroup = {
+  label: string;
+  items: NavigationItem[];
 };

@@ -12,7 +12,7 @@ export async function login(data: LoginData): Promise<User> {
       username: 'admin',
       email: 'admin@example.com',
       roles: ['admin'],
-      permissions: [],
+      permissions: ['dashboard.read', 'dummies.read'],
     };
   }
 
@@ -35,7 +35,7 @@ export async function verifySession(token: string): Promise<User> {
       username: 'admin',
       email: 'admin@example.com',
       roles: ['admin'],
-      permissions: [],
+      permissions: ['dashboard.read', 'dummies.read'],
     };
   }
 

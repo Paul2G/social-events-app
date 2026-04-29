@@ -2,7 +2,6 @@ export const layout = {
   theme: 'Theme',
   scale: 'Scale',
   language: 'Language',
-  tools: 'Tools',
   themes: {
     dark: 'Dark',
     light: 'Light',
@@ -21,6 +20,8 @@ export const layout = {
   },
   navItems: {
     home: 'Home',
+    tools: 'Tools',
+    admin: 'Admin',
     dashboard: 'Dashboard',
     settings: 'Settings',
     getHelp: 'Get Help',
