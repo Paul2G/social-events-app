@@ -1,5 +1,10 @@
-import type { DataTableColumnVisibilityState } from '@/core/types/data-table';
-import type { ColumnDef } from '@tanstack/react-table';
+import type {
+  ColumnDef,
+  OnChangeFn,
+  Row,
+  RowSelectionState,
+  VisibilityState,
+} from '@tanstack/react-table';
 
 import {
   flexRender,
@@ -22,7 +27,12 @@ export function DataTable<TData>({
   data,
   columns,
   columnVisibility,
+  rowSelection = {},
   setColumnVisibility,
+  setRowSelection,
+  // @ts-expect-error - idx is only used as fallback, so it will never be used if row has no id
+  getRowId = (row, idx) => String(row?.id ?? idx),
+  getRowCanSelect,
   headerSlot,
 }: DataTableProps<TData>) {
   const { t } = useTranslation();
@@ -30,11 +40,15 @@ export function DataTable<TData>({
   const table = useReactTable({
     data,
     columns,
+    enableRowSelection:
+      getRowCanSelect ?? Boolean(setRowSelection && rowSelection),
+    getRowId,
     getCoreRowModel: getCoreRowModel(),
-    // @ts-expect-error It works as documentation says
     onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: setRowSelection,
     state: {
       columnVisibility,
+      rowSelection,
     },
   });
 
@@ -101,9 +115,11 @@ export function DataTable<TData>({
 export type DataTableProps<TData> = {
   data: TData[];
   columns: ColumnDef<TData>[];
-  columnVisibility: DataTableColumnVisibilityState<TData>;
-  setColumnVisibility: (
-    visibilityState: DataTableColumnVisibilityState<TData>,
-  ) => void;
+  columnVisibility: VisibilityState;
+  rowSelection?: RowSelectionState;
+  setColumnVisibility: OnChangeFn<VisibilityState>;
+  setRowSelection?: OnChangeFn<RowSelectionState>;
+  getRowId?: (row: TData, idx: number) => string;
+  getRowCanSelect?: (row: Row<TData>) => boolean;
   headerSlot?: React.ReactNode;
 };
