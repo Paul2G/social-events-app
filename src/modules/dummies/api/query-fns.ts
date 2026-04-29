@@ -87,7 +87,7 @@ export async function createDummy(dummy: DummyFormData) {
 
   const newDummy: Dummy = {
     ...dummy,
-    id: Math.max(...dummies.map((d) => d.id)),
+    id: Math.max(...dummies.map((d) => d.id)) + 1,
     created_at: new Date().toString(),
   };
 
