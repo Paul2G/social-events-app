@@ -31,7 +31,7 @@ export function CreateDummyDialogTrigger({ children }: CreateDummyDialogProps) {
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogTrigger>{children}</DialogTrigger>
+      <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
           <DialogTitle>{t('dummies:actions.addNew')}</DialogTitle>
