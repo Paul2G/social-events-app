@@ -107,6 +107,11 @@ export function StatusBadge({ status }: StatusBadgeProps) {
       children: t('constants.status.synced'),
       icon: CloudCheckIcon,
     },
+    closed: {
+      variant: 'outline',
+      children: t('constants.status.closed'),
+      icon: XIcon,
+    },
   };
 
   /* @ts-expect-error This is supposed to be undefined if status is not valid and will be validated*/

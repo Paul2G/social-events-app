@@ -17,6 +17,7 @@ export const ItemStatus = {
   SCHEDULED: 'scheduled',
   READY_TO_SYNC: 'readyToSync',
   SYNCED: 'synced',
+  CLOSED: 'closed',
 } as const;
 
 export type ItemStatus = EnumValues<typeof ItemStatus>;
