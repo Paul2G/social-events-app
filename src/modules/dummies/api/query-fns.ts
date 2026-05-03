@@ -39,9 +39,9 @@ export async function getDummiesList(
   return {
     items: filteredDummies.slice((page - 1) * pageSize, page * pageSize),
     meta: {
-      page,
+      currentPage: page,
       pageSize,
-      total: filteredDummies.length,
+      totalItems: filteredDummies.length,
     },
   };
 }

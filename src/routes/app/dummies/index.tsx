@@ -58,7 +58,7 @@ function RouteComponent() {
         className="mt-auto"
         currentPage={search.page}
         pageSize={search.pageSize}
-        totalItems={data.meta.total}
+        totalItems={data.meta.totalItems}
       />
     </div>
   );
