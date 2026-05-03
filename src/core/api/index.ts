@@ -1,5 +1,5 @@
 import type { GetOptions, MutationOptions } from '@/core/types/request';
-import type { PaginatedResponse } from '@/core/types/response';
+import type { PaginatedResponse, PaginationData } from '@/core/types/response';
 
 import { request } from '@/core/api/request';
 import { assertValidId } from '@/core/lib/request';
@@ -35,11 +35,18 @@ function deleteRequest<TData>(
 // List (paginated)
 // -------------------------------------------------------------------------
 
-function getList<TData>(
+async function getList<TData>(
   path: string,
   options?: GetOptions,
 ): Promise<PaginatedResponse<TData>> {
-  return request<PaginatedResponse<TData>>('GET', path, options);
+  // Most APIs return paginated data in a { data: TData[], meta: PaginationData } format, so we need to transform it to our PaginatedResponse<TData> format.
+  const res = await request<{ data: TData[]; meta: PaginationData }>(
+    'GET',
+    path,
+    options,
+  );
+
+  return { items: res.data, meta: res.meta } as PaginatedResponse<TData>;
 }
 
 // -------------------------------------------------------------------------
