@@ -1,16 +1,18 @@
 /**
  * Specifies the type for the fetch request body for getAllItems request.
  */
+export type PaginationData = {
+  currentPage: number;
+  pageSize: number;
+  totalItems: number;
+  totalPages?: number;
+  hasNextPage?: boolean;
+  hasPreviousPage?: boolean;
+};
+
 export type PaginatedResponse<T> = {
   items: Array<T>;
-  meta: {
-    page: number;
-    pageSize: number;
-    total: number;
-    lastPage?: number | null;
-    next?: string | null;
-    prev?: string | null;
-  };
+  meta: PaginationData;
 };
 
 /** RFC9457 Problem Details for HTTP APIs */

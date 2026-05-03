@@ -166,6 +166,7 @@ export const core = {
       pending: 'Pending',
       readyToSync: 'Ready to sync',
       synced: 'Synced',
+      closed: 'Closed',
     },
   },
   nouns: {

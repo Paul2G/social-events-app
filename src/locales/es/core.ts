@@ -158,6 +158,7 @@ export const core = {
       pending: 'Pendiente',
       readyToSync: 'Listo',
       synced: 'Sincronizado',
+      closed: 'Cerrado',
     },
     sorts: {
       asc: 'Ascendente',
