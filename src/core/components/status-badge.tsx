@@ -18,7 +18,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Badge } from '@/core/components/ui/badge';
 import { ItemStatus } from '@/core/constants/misc';
-import { snakeToCamelCase } from '@/core/lib/utils';
+import { convertCase } from '@/core/lib/utils';
 
 export function StatusBadge({ status }: StatusBadgeProps) {
   const { t } = useTranslation();
@@ -115,7 +115,7 @@ export function StatusBadge({ status }: StatusBadgeProps) {
   };
 
   /* @ts-expect-error This is supposed to be undefined if status is not valid and will be validated*/
-  const currentStatus = statuses[snakeToCamelCase(status)];
+  const currentStatus = statuses[convertCase(status)];
 
   if (currentStatus) {
     const { variant, children, icon: StatusIcon } = currentStatus;
