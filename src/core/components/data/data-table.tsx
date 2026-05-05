@@ -5,7 +5,9 @@ import type {
   RowSelectionState,
   VisibilityState,
 } from '@tanstack/react-table';
+import type { Dispatch, SetStateAction } from 'react';
 
+import { useEffect, useState } from 'react';
 import {
   flexRender,
   getCoreRowModel,
@@ -25,23 +27,25 @@ import {
 
 export function DataTable<TData>({
   data,
+  headerSlot,
   columns,
   columnVisibility,
-  rowSelection = {},
   setColumnVisibility,
-  setRowSelection,
   // @ts-expect-error - idx is only used as fallback, so it will never be used if row has no id
   getRowId = (row, idx) => String(row?.id ?? idx),
   getRowCanSelect,
-  headerSlot,
+  selectedItems,
+  setSelectedItems,
 }: DataTableProps<TData>) {
   const { t } = useTranslation();
+
+  const [rowSelection, setRowSelection] = useState<RowSelectionState>({});
 
   const table = useReactTable({
     data,
     columns,
     enableRowSelection:
-      getRowCanSelect ?? Boolean(setRowSelection && rowSelection),
+      getRowCanSelect ?? Boolean(selectedItems && setSelectedItems),
     getRowId,
     getCoreRowModel: getCoreRowModel(),
     onColumnVisibilityChange: setColumnVisibility,
@@ -51,6 +55,34 @@ export function DataTable<TData>({
       rowSelection,
     },
   });
+
+  const selectedIds = new Set(
+    Object.keys(rowSelection).filter((id) => rowSelection[id]),
+  );
+
+  useEffect(() => {
+    if (!selectedItems || !setSelectedItems) return;
+
+    setSelectedItems((prev) => {
+      // 1. Remove deselected items using getRowId to resolve each item's ID
+      const stillSelected = prev.filter((item) => {
+        const id = getRowId(item, -1); // index irrelevant for ID-based lookup
+        return selectedIds.has(id);
+      });
+
+      // 2. Add newly selected items from the current page
+      const prevIds = new Set(
+        stillSelected.map((item, idx) => getRowId(item, idx)),
+      );
+      const newlySelected = table
+        .getRowModel()
+        .rows.filter((row) => rowSelection[row.id] && !prevIds.has(row.id))
+        // row.id is already resolved by the table using your getRowId
+        .map((row) => row.original);
+
+      return [...stillSelected, ...newlySelected];
+    });
+  }, [rowSelection]);
 
   return (
     <>
@@ -114,12 +146,15 @@ export function DataTable<TData>({
 
 export type DataTableProps<TData> = {
   data: TData[];
+  headerSlot?: React.ReactNode;
+  // Columns
   columns: ColumnDef<TData>[];
   columnVisibility: VisibilityState;
-  rowSelection?: RowSelectionState;
   setColumnVisibility: OnChangeFn<VisibilityState>;
-  setRowSelection?: OnChangeFn<RowSelectionState>;
+  // Rows
   getRowId?: (row: TData, idx: number) => string;
   getRowCanSelect?: (row: Row<TData>) => boolean;
-  headerSlot?: React.ReactNode;
+  // Selected items
+  selectedItems?: TData[];
+  setSelectedItems?: Dispatch<SetStateAction<TData[]>>;
 };
