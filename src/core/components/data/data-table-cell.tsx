@@ -7,6 +7,7 @@ import { BadgeList } from '@/core/components/badge-list';
 import { CheckMark } from '@/core/components/check-mark';
 import { Money } from '@/core/components/money';
 import { StatusBadge } from '@/core/components/status-badge';
+import { Badge } from '@/core/components/ui/badge';
 import { Button } from '@/core/components/ui/button';
 import { DataTableColumnType } from '@/core/constants/data-table';
 import { formatDate } from '@/core/lib/dates';
@@ -27,6 +28,12 @@ export function DataTableCell<TData>({
     case DataTableColumnType.TEXT:
     case DataTableColumnType.PARAGRAPH:
       return <span>{value as string}</span>;
+    case DataTableColumnType.KEY:
+      return (
+        <Badge variant="secondary" className="font-mono text-sm">
+          {value as string}
+        </Badge>
+      );
     case DataTableColumnType.BOOLEAN:
       return <CheckMark value={value} />;
     case DataTableColumnType.MONEY:

@@ -3,6 +3,7 @@ import type { EnumValues } from '@/core/types';
 /** Specifies the type of column to be displayed in the content table. */
 export const DataTableColumnType = {
   ID: 'id',
+  KEY: 'key',
   NUMBER: 'number',
   TEXT: 'text',
   BOOLEAN: 'boolean',
