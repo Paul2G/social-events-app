@@ -1,9 +1,9 @@
-import type { JsonRecord } from '@/core/types/request';
+import type { RequestDataRecord } from '@/core/types/request';
 
 import { MissingIdError } from '@/core/errors';
 import projectConfig from '@/project.config';
 
-export function buildUrl(path: string, query?: JsonRecord): string {
+export function buildUrl(path: string, query?: RequestDataRecord): string {
   const base = projectConfig.baseApi.url.replace(/\/$/, '');
   const apiPath = projectConfig.baseApi.path
     .replace(/^\//, '')

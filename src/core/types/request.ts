@@ -1,16 +1,17 @@
-export type JSONValue =
+export type RequestData =
   | string
   | number
   | boolean
+  | Date // URLSearchParams and fetch Body support date parsing from Date object
   | null
-  | { [x: string]: JSONValue }
-  | Array<JSONValue>;
+  | { [x: string]: RequestData }
+  | Array<RequestData>;
 
-export type JsonRecord = Record<string, JSONValue>;
+export type RequestDataRecord = Record<string, RequestData>;
 
 export interface RequestOptions {
-  query?: JsonRecord;
-  body?: JsonRecord;
+  query?: RequestDataRecord;
+  body?: RequestDataRecord;
   signal?: AbortSignal;
 }
 
