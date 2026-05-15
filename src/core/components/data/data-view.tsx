@@ -6,7 +6,6 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { DataPaginator } from '@/core/components/data/data-paginator';
-import { DataSearch } from '@/core/components/data/data-search';
 import { DataTable } from '@/core/components/data/data-table';
 import { DataTableColumnSelector } from '@/core/components/data/data-table-column-selector';
 import { DataViewToggle } from '@/core/components/data/data-view-toggle';
@@ -62,10 +61,7 @@ export function DataView<TData>({
       {...restOfProps}
     >
       <div className="flex justify-between gap-2">
-        <div className="grow flex gap-2">
-          <DataSearch className="w-0 grow" />
-          {dataFiltersSlot}
-        </div>
+        <div className="grow flex gap-2">{dataFiltersSlot}</div>
         <div className="flex gap-2">
           {viewMode === 'table' && (
             <DataTableColumnSelector
