@@ -3,12 +3,14 @@ import type { ColumnDef, Row, VisibilityState } from '@tanstack/react-table';
 import type { Dispatch, SetStateAction } from 'react';
 
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 import { DataPaginator } from '@/core/components/data/data-paginator';
 import { DataSearch } from '@/core/components/data/data-search';
 import { DataTable } from '@/core/components/data/data-table';
 import { DataTableColumnSelector } from '@/core/components/data/data-table-column-selector';
 import { DataViewToggle } from '@/core/components/data/data-view-toggle';
+import { Typography } from '@/core/components/ui/typography';
 import { useUpdateEffect } from '@/core/hooks/use-update-effect';
 import {
   getColumnsPreference,
@@ -20,10 +22,11 @@ import { cn } from '@/core/lib/utils';
 
 export function DataView<TData>({
   preferencesNamespace,
-  items,
+  items = [],
   selectedItems,
   setSelectedItems,
   pagination,
+  dataFiltersSlot = null,
   dataTableColumnsSettings,
   dataTableDefaultVisibleColumns = {},
   dataTableGetRowId,
@@ -33,6 +36,8 @@ export function DataView<TData>({
   dataGridClassName,
   ...restOfProps
 }: DataViewProps<TData>) {
+  const { t } = useTranslation();
+
   const [viewMode, setViewMode] = useState(() =>
     dataGridCardSlot ? getViewModePreference(preferencesNamespace) : 'table',
   );
@@ -52,10 +57,14 @@ export function DataView<TData>({
   }, [viewMode]);
 
   return (
-    <div className={cn('flex flex-col gap-2', className)} {...restOfProps}>
+    <div
+      className={cn('relative flex flex-col gap-2 mb-8', className)}
+      {...restOfProps}
+    >
       <div className="flex justify-between gap-2">
         <div className="grow flex gap-2">
           <DataSearch className="w-0 grow" />
+          {dataFiltersSlot}
         </div>
         <div className="flex gap-2">
           {viewMode === 'table' && (
@@ -86,16 +95,22 @@ export function DataView<TData>({
       {dataGridCardSlot && viewMode === 'grid' && (
         <div
           className={cn(
-            'grid grid-cols-[repeat(auto-fit,minmax(20rem,1fr))] gap-2',
+            'grid gap-2 grid-cols-1 sm:grid-cols-[repeat(auto-fit,minmax(20rem,1fr))] ',
             'animate-in fade-in duration-300',
             dataGridClassName,
           )}
         >
-          {items.map(dataGridCardSlot)}
+          {!!items.length ? (
+            items.map(dataGridCardSlot)
+          ) : (
+            <Typography variant="lead" className="text-center my-16">
+              {t('core:messages.noResultsFound')}
+            </Typography>
+          )}
         </div>
       )}
       <DataPaginator
-        className="mt-auto"
+        className="py-2 fixed left-0 bottom-0 bg-background"
         currentPage={pagination.currentPage}
         pageSize={pagination.pageSize}
         totalItems={pagination.totalItems}
@@ -109,6 +124,7 @@ export type DataViewProps<TData> = {
   preferencesNamespace: string;
   // data related
   items: TData[];
+  dataFiltersSlot?: React.ReactNode;
   pagination: PaginationData;
   selectedItems?: TData[];
   setSelectedItems?: Dispatch<SetStateAction<TData[]>>;
