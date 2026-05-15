@@ -58,7 +58,7 @@ export function DataView<TData>({
 
   return (
     <div
-      className={cn('relative flex flex-col gap-2 mb-8', className)}
+      className={cn('max-sm:mb-8 relative flex flex-col gap-4', className)}
       {...restOfProps}
     >
       <div className="flex justify-between gap-2">
@@ -100,7 +100,7 @@ export function DataView<TData>({
             dataGridClassName,
           )}
         >
-          {!!items.length ? (
+          {items.length ? (
             items.map(dataGridCardSlot)
           ) : (
             <Typography variant="lead" className="text-center my-16">
@@ -110,7 +110,7 @@ export function DataView<TData>({
         </div>
       )}
       <DataPaginator
-        className="py-2 fixed left-0 bottom-0 bg-background"
+        className="max-sm:fixed max-sm:bottom-0 max-sm:left-0 max-sm:py-2 bg-background"
         currentPage={pagination.currentPage}
         pageSize={pagination.pageSize}
         totalItems={pagination.totalItems}
