@@ -3,6 +3,7 @@ import type { ColumnDef, Row, VisibilityState } from '@tanstack/react-table';
 import type { Dispatch, SetStateAction } from 'react';
 
 import React, { useState } from 'react';
+import { MagnifyingGlassIcon } from '@phosphor-icons/react';
 import { useTranslation } from 'react-i18next';
 
 import { DataPaginator } from '@/core/components/data/data-paginator';
@@ -57,7 +58,7 @@ export function DataView<TData>({
 
   return (
     <div
-      className={cn('max-sm:mb-8 relative flex flex-col gap-4', className)}
+      className={cn('max-sm:mb-8 grow relative flex flex-col gap-4', className)}
       {...restOfProps}
     >
       <div className="flex justify-between gap-2">
@@ -99,14 +100,23 @@ export function DataView<TData>({
           {items.length ? (
             items.map(dataGridCardSlot)
           ) : (
-            <Typography variant="lead" className="text-center my-16">
-              {t('core:messages.noResultsFound')}
-            </Typography>
+            <div className="flex flex-col items-center gap-2 py-16">
+              <MagnifyingGlassIcon
+                className="text-muted-foreground size-20"
+                weight="thin"
+              />
+              <Typography variant="lead" className="text-center">
+                {t('core:messages.noResultsFound')}
+              </Typography>
+              <Typography variant="muted" className="text-center">
+                {t('core:messages.tryRemovingFilters')}
+              </Typography>
+            </div>
           )}
         </div>
       )}
       <DataPaginator
-        className="max-sm:fixed max-sm:bottom-0 max-sm:left-0 max-sm:py-2 bg-background"
+        className="max-sm:fixed max-sm:bottom-0 max-sm:left-0 max-sm:py-2 mt-auto bg-background"
         currentPage={pagination.currentPage}
         pageSize={pagination.pageSize}
         totalItems={pagination.totalItems}

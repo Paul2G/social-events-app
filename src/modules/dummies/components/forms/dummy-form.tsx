@@ -155,9 +155,9 @@ export function DummyForm({
 }
 
 export type DummyFormProps = {
-  defaultValues?: Partial<DummyFormData>; // undefined = create, populated = update
+  defaultValues?: Partial<DummyFormData>;
   onSubmit: (data: DummyFormData) => void;
-  onCancel?: () => void; // optional — useful in modals
+  onCancel?: () => void;
   isLoading?: boolean;
-  submitLabel?: string; // override "Save" if needed
+  submitLabel?: string;
 };
